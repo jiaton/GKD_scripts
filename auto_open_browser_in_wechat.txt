@@ -1,0 +1,58 @@
+{
+  key: 1,
+  name: '自动在浏览器打开',
+  desc: '自动在浏览器打开微信网页中的链接',
+  activityIds: [
+    'com.tencent.mm.plugin.webview.ui.tools.MMWebViewUI'
+  ],
+  apps: [
+  'com.tencent.mm'
+  ],
+  rules: [
+    {
+      key: 0,
+      name: '点击更多信息',
+      matches: [
+        '[desc="更多信息"][clickable=true]',
+      ],
+      anyMatches: [
+        '[id="android:id/text1"][text*="."]'
+      ],
+      actionDelay: 100,
+      fastQuery: true,
+      snapshotUrls: []
+    },
+    {
+      key: 1,
+      name: '点击在浏览器打开',
+      preKeys: [
+        0
+      ],
+      anyMatches: [
+        '[clickable=true] > [text="小红书"]',
+        '[clickable=true] > [text="Rednote"]',
+        '[clickable=true] > [text="在浏览器中打开"]',
+        '[clickable=true] > [text="Open in browser"]',
+        '[clickable=true] > [text*="Open in"]'
+      ],
+      actionDelay: 200,
+      fastQuery: true,
+      actionMaximum: 1,
+      snapshotUrls: []
+    },
+    {
+      key: 2,
+      name: '点击允许',
+      preKeys: [
+        1
+      ],
+      anyMatches: [
+        '[text="允许"][clickable=true]',
+        '[text="Allow"][clickable=true]',
+      ],
+      actionDelay: 100,
+      fastQuery: true,
+      snapshotUrls: []
+    }
+  ]
+}

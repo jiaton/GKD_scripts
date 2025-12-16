@@ -1,0 +1,21 @@
+{
+  key: 2,
+  name: 'Auto Click Allow in Wechat Jumping',
+  desc: 'Automatically clicks allow in wechat jumping when viewing pages in WeChat WebView. Works in both Chinese and English.',
+  activityIds: [
+    'com.tencent.mm.plugin.webview.stub.WebViewStubProxyUI'
+  ],
+  rules: [
+    {
+      key: 0,
+      name: 'Click allow button',
+      anyMatches: [
+      '[text="允许"][clickable=true]',
+      '[text="Allow"][clickable=true]'
+      ],
+      actionDelay: 100,
+      fastQuery: true,
+      snapshotUrls: []
+    }
+  ]
+}
