@@ -4,18 +4,18 @@
     {
       key: 1,
       name: 'Tesla蓝牙音频自动开启',
-      desc: '进入Tesla蓝牙设备子设置页面时，自动开启通话音频开关',
+      desc: '进入Tesla蓝牙设备子设置页面时，自动开启Calls和Audio开关',
       activityIds: [
         'com.android.settings.SubSettings',
       ],
       rules: [
         {
           key: 0,
-          name: '开启Call audio开关',
-          // 仅当开关处于关闭状态时点击，避免反复切换
-          anyMatches: [
-            '[text="Call audio"] +n RelativeLayout +n LinearLayout > Switch[id="android:id/switch_widget"][checked=false]',
-            '[text="通话音频"] +n RelativeLayout +n LinearLayout > Switch[id="android:id/switch_widget"][checked=false]',
+          name: '开启Calls开关',
+          // 仅在Tesla设备页面，且开关处于关闭状态时点击
+          matches: [
+            '[text*="Tesla"]',
+            '[text="Calls"] <<n LinearLayout > LinearLayout > Switch[id="android:id/switch_widget"][checked=false]',
           ],
           actionDelay: 500,
           fastQuery: true,
@@ -23,10 +23,10 @@
         },
         {
           key: 1,
-          name: '开启Media audio开关',
-          anyMatches: [
-            '[text="Media audio"] +n RelativeLayout +n LinearLayout > Switch[id="android:id/switch_widget"][checked=false]',
-            '[text="媒体音频"] +n RelativeLayout +n LinearLayout > Switch[id="android:id/switch_widget"][checked=false]',
+          name: '开启Audio开关',
+          matches: [
+            '[text*="Tesla"]',
+            '[text="Audio"] <<n LinearLayout > LinearLayout > Switch[id="android:id/switch_widget"][checked=false]',
           ],
           actionDelay: 500,
           fastQuery: true,
