@@ -1,0 +1,34 @@
+name: build subscription
+
+on:
+  push:
+    branches: [main]
+    paths: ['rules/**', 'build.mjs', 'package.json', 'package-lock.json']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # PRs only validate; pushes to main also commit the rebuilt file
+      - if: github.event_name == 'pull_request'
+        run: npm run check
+      - if: github.event_name != 'pull_request'
+        run: |
+          npm run build
+          if ! git diff --quiet subscription.json5; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m "subscription: v$(node -p "require('json5').parse(require('fs').readFileSync('subscription.json5','utf8')).version")" subscription.json5
+            git push
+          fi

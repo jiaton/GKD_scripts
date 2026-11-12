@@ -1,0 +1,193 @@
+{
+  "id": 20251216,
+  "name": "jiaton GKD rules",
+  "version": 1,
+  "author": "jiaton",
+  "updateUrl": "https://raw.githubusercontent.com/jiaton/GKD_scripts/main/subscription.json5",
+  "supportUri": "https://github.com/jiaton/GKD_scripts",
+  "apps": [
+    {
+      "id": "com.android.settings",
+      "name": "设置",
+      "groups": [
+        {
+          "key": 1,
+          "name": "Tesla蓝牙音频自动开启",
+          "desc": "进入Tesla蓝牙设备子设置页面时，自动开启Calls和Audio开关",
+          "activityIds": [
+            "com.android.settings.SubSettings"
+          ],
+          "rules": [
+            {
+              "key": 0,
+              "name": "开启Calls开关",
+              "matches": [
+                "[text*=\"Tesla\"]",
+                "[text=\"Calls\"] <<n LinearLayout > LinearLayout > Switch[id=\"android:id/switch_widget\"][checked=false]"
+              ],
+              "actionDelay": 500,
+              "fastQuery": true,
+              "snapshotUrls": []
+            },
+            {
+              "key": 1,
+              "name": "开启Audio开关",
+              "matches": [
+                "[text*=\"Tesla\"]",
+                "[text=\"Audio\"] <<n LinearLayout > LinearLayout > Switch[id=\"android:id/switch_widget\"][checked=false]"
+              ],
+              "actionDelay": 500,
+              "fastQuery": true,
+              "snapshotUrls": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "com.samsung.android.incallui",
+      "name": "三星通话",
+      "groups": [
+        {
+          "key": 1,
+          "name": "SCS Call Box自动按9",
+          "desc": "当对方是SCS Call Box时，自动打开拨号盘并按下数字9",
+          "activityIds": [
+            "com.android.incallui.call.InCallActivity"
+          ],
+          "rules": [
+            {
+              "key": 0,
+              "name": "检测SCS Call Box并打开拨号盘",
+              "matches": [
+                "[text=\"SCS Call box\"]",
+                "[text=\"Keypad\"][clickable=true]"
+              ],
+              "actionDelay": 1000,
+              "fastQuery": true,
+              "snapshotUrls": []
+            },
+            {
+              "key": 1,
+              "name": "按下数字9",
+              "matches": [
+                "[text=\"SCS Call box\"]"
+              ],
+              "anyMatches": [
+                "[text=\"9\"][clickable=true]",
+                "[desc=\"9\"][clickable=true]"
+              ],
+              "actionDelay": 1000,
+              "fastQuery": true,
+              "snapshotUrls": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "com.tencent.mm",
+      "name": "微信",
+      "groups": [
+        {
+          "key": 1,
+          "name": "自动跳出微信打开链接",
+          "desc": "自动打开微信网页中的链接：小红书域名用小红书 App，其他用浏览器",
+          "activityIds": [
+            "com.tencent.mm.plugin.webview.ui.tools.MMWebViewUI"
+          ],
+          "rules": [
+            {
+              "key": 0,
+              "name": "点击更多信息",
+              "matches": [
+                "[desc=\"更多信息\"][clickable=true]"
+              ],
+              "anyMatches": [
+                "[id=\"android:id/text1\"][text*=\".\"]"
+              ],
+              "actionDelay": 100,
+              "fastQuery": true,
+              "snapshotUrls": []
+            },
+            {
+              "key": 3,
+              "name": "小红书网页用小红书打开",
+              "desc": "菜单里的网页来源是小红书域名时，点「在小红书中打开 / Open in rednote」",
+              "preKeys": [
+                0
+              ],
+              "matches": [
+                "[text*=\"xiaohongshu.com\" || text*=\"xhslink.com\"]"
+              ],
+              "anyMatches": [
+                "[clickable=true] > [text*=\"小红书\"][text*=\"打开\"]",
+                "[clickable=true] > [text*=\"rednote\" || text*=\"RedNote\" || text*=\"Xiaohongshu\"]"
+              ],
+              "actionDelay": 200,
+              "fastQuery": true,
+              "actionMaximum": 1,
+              "snapshotUrls": []
+            },
+            {
+              "key": 1,
+              "name": "点击在浏览器打开",
+              "desc": "非小红书域名的网页一律用浏览器打开",
+              "preKeys": [
+                0
+              ],
+              "excludeMatches": [
+                "[text*=\"xiaohongshu.com\" || text*=\"xhslink.com\"]"
+              ],
+              "anyMatches": [
+                "[clickable=true] > [text=\"在浏览器中打开\"]",
+                "[clickable=true] > [text=\"Open in browser\"]",
+                "[clickable=true] > [text*=\"Open in\"][text!*=\"rednote\"][text!*=\"RedNote\"][text!*=\"Xiaohongshu\"]"
+              ],
+              "actionDelay": 200,
+              "fastQuery": true,
+              "actionMaximum": 1,
+              "snapshotUrls": []
+            },
+            {
+              "key": 2,
+              "name": "点击允许",
+              "preKeys": [
+                1,
+                3
+              ],
+              "anyMatches": [
+                "[text=\"允许\"][clickable=true]",
+                "[text=\"Allow\"][clickable=true]"
+              ],
+              "actionDelay": 100,
+              "fastQuery": true,
+              "snapshotUrls": []
+            }
+          ]
+        },
+        {
+          "key": 2,
+          "name": "Auto Click Allow in Wechat Jumping",
+          "desc": "Automatically clicks allow in wechat jumping when viewing pages in WeChat WebView. Works in both Chinese and English.",
+          "activityIds": [
+            "com.tencent.mm.plugin.webview.stub.WebViewStubProxyUI"
+          ],
+          "rules": [
+            {
+              "key": 0,
+              "name": "Click allow button",
+              "anyMatches": [
+                "[text=\"允许\"][clickable=true]",
+                "[text=\"Allow\"][clickable=true]"
+              ],
+              "actionDelay": 100,
+              "fastQuery": true,
+              "snapshotUrls": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

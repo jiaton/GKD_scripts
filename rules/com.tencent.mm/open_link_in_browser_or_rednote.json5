@@ -1,6 +1,6 @@
 {
   key: 1,
-  name: '自动在浏览器打开',
+  name: '自动跳出微信打开链接',
   desc: '自动打开微信网页中的链接：小红书域名用小红书 App，其他用浏览器',
   activityIds: [
     'com.tencent.mm.plugin.webview.ui.tools.MMWebViewUI',
