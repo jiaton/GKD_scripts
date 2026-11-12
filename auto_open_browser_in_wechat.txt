@@ -1,7 +1,7 @@
 {
   key: 1,
   name: '自动在浏览器打开',
-  desc: '自动在浏览器打开微信网页中的链接',
+  desc: '自动打开微信网页中的链接：小红书域名用小红书 App，其他用浏览器',
   activityIds: [
     'com.tencent.mm.plugin.webview.ui.tools.MMWebViewUI',
   ],
@@ -20,17 +20,38 @@
       snapshotUrls: [],
     },
     {
-      key: 1,
-      name: '点击在浏览器打开',
+      key: 3,
+      name: '小红书网页用小红书打开',
+      desc: '菜单里的网页来源是小红书域名时，点「在小红书中打开 / Open in rednote」',
       preKeys: [
         0,
       ],
+      matches: [
+        '[text*="xiaohongshu.com" || text*="xhslink.com"]',
+      ],
+      anyMatches: [
+        '[clickable=true] > [text*="小红书"][text*="打开"]',
+        '[clickable=true] > [text*="rednote" || text*="RedNote" || text*="Xiaohongshu"]',
+      ],
+      actionDelay: 200,
+      fastQuery: true,
+      actionMaximum: 1,
+      snapshotUrls: [],
+    },
+    {
+      key: 1,
+      name: '点击在浏览器打开',
+      desc: '非小红书域名的网页一律用浏览器打开',
+      preKeys: [
+        0,
+      ],
+      excludeMatches: [
+        '[text*="xiaohongshu.com" || text*="xhslink.com"]',
+      ],
       anyMatches: [
         '[clickable=true] > [text="在浏览器中打开"]',
-        '[clickable=true] > [text*="rednote"]',
-        '[clickable=true] > [text="Open in rednote"]',
         '[clickable=true] > [text="Open in browser"]',
-        '[clickable=true] > [text*="Open in"]',
+        '[clickable=true] > [text*="Open in"][text!*="rednote"][text!*="RedNote"][text!*="Xiaohongshu"]',
       ],
       actionDelay: 200,
       fastQuery: true,
@@ -42,6 +63,7 @@
       name: '点击允许',
       preKeys: [
         1,
+        3,
       ],
       anyMatches: [
         '[text="允许"][clickable=true]',
