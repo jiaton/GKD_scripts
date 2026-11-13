@@ -20,18 +20,42 @@
       snapshotUrls: [],
     },
     {
-      key: 3,
-      name: '小红书网页用小红书打开',
-      desc: '菜单里的网页来源是小红书域名时，点「在小红书中打开 / Open in rednote」',
+      key: 4,
+      name: '小红书网页：把入口滑出来',
+      desc: '「在小红书中打开」在第二排最右边、屏幕外，GKD 看不到；在「在浏览器中打开」上往左滑一段',
       preKeys: [
         0,
       ],
       matches: [
         '[text*="xiaohongshu.com" || text*="xhslink.com"]',
+        '[text="在浏览器中打开" || text="Open in browser"]',
       ],
-      anyMatches: [
-        '[clickable=true] > [text*="小红书"][text*="打开"]',
-        '[clickable=true] > [text*="rednote" || text*="RedNote" || text*="Xiaohongshu"]',
+      excludeMatches: [
+        '[clickable=true] > [(text*="小红书" && text*="打开") || text*="rednote" || text*="RedNote" || text*="Xiaohongshu"]',
+      ],
+      swipeArg: {
+        start: { left: 'width/2', top: 'height/2' },
+        end: { left: 'width/2 - screenWidth*0.6', top: 'height/2' },
+        duration: 300,
+      },
+      actionDelay: 200,
+      actionCd: 800,
+      actionMaximum: 2,
+      fastQuery: true,
+      snapshotUrls: [],
+    },
+    {
+      key: 3,
+      name: '小红书网页用小红书打开',
+      desc: '菜单里的网页来源是小红书域名时，点「在小红书中打开 / Open in rednote」',
+      preKeys: [
+        0,
+        4,
+      ],
+      // matches 全部命中后点的是最后一个选择器的节点，所以按钮放最后
+      matches: [
+        '[text*="xiaohongshu.com" || text*="xhslink.com"]',
+        '[clickable=true] > [(text*="小红书" && text*="打开") || text*="rednote" || text*="RedNote" || text*="Xiaohongshu"]',
       ],
       actionDelay: 200,
       fastQuery: true,
