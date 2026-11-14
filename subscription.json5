@@ -1,7 +1,7 @@
 {
   "id": 20251216,
   "name": "jiaton GKD rules",
-  "version": 2,
+  "version": 4,
   "author": "jiaton",
   "updateUrl": "https://raw.githubusercontent.com/jiaton/GKD_scripts/main/subscription.json5",
   "supportUri": "https://github.com/jiaton/GKD_scripts",
@@ -100,6 +100,8 @@
             {
               "key": 0,
               "name": "点击更多信息",
+              "actionMaximum": 1,
+              "matchDelay": 500,
               "matches": [
                 "[desc=\"更多信息\"][clickable=true]"
               ],
@@ -179,8 +181,32 @@
               "snapshotUrls": []
             },
             {
+              "key": 5,
+              "name": "跳出后回到微信：关掉这个网页",
+              "desc": "回到微信时 GKD 会重置计数、整套流程又跑一遍；如果最后触发的是本组的打开/允许，说明刚跳出去过，直接按返回关掉网页",
+              "preKeys": [
+                1,
+                2,
+                3
+              ],
+              "matches": [
+                "[desc=\"更多信息\"][clickable=true]"
+              ],
+              "action": "back",
+              "order": -2,
+              "actionDelay": 300,
+              "actionMaximum": 1,
+              "fastQuery": true,
+              "snapshotUrls": []
+            },
+            {
               "key": 2,
               "name": "点击允许",
+              "activityIds": [
+                "com.tencent.mm.plugin.webview.ui.tools.MMWebViewUI",
+                "com.tencent.mm.plugin.webview.stub.WebViewStubProxyUI"
+              ],
+              "order": -1,
               "preKeys": [
                 1,
                 3

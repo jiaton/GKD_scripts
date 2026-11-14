@@ -9,6 +9,8 @@
     {
       key: 0,
       name: '点击更多信息',
+      actionMaximum: 1,
+      matchDelay: 500,
       matches: [
         '[desc="更多信息"][clickable=true]',
       ],
@@ -83,8 +85,35 @@
       snapshotUrls: [],
     },
     {
+      key: 5,
+      name: '跳出后回到微信：关掉这个网页',
+      desc: '回到微信时 GKD 会重置计数、整套流程又跑一遍；如果最后触发的是本组的打开/允许，说明刚跳出去过，直接按返回关掉网页',
+      preKeys: [
+        1,
+        2,
+        3,
+      ],
+      matches: [
+        '[desc="更多信息"][clickable=true]',
+      ],
+      action: 'back',
+      order: -2,
+      // 比 key 0 的 matchDelay 短，回到网页时先按返回，key 0 来不及点「更多信息」
+      actionDelay: 300,
+      actionMaximum: 1,
+      fastQuery: true,
+      snapshotUrls: [],
+    },
+    {
       key: 2,
       name: '点击允许',
+      // 确认跳转的弹窗可能是单独的 WebViewStubProxyUI；在这里点掉（order 比「Auto Click Allow」组靠前），
+      // 让「最后触发的规则」留在本组，回到微信时 key 5 才认得出来
+      activityIds: [
+        'com.tencent.mm.plugin.webview.ui.tools.MMWebViewUI',
+        'com.tencent.mm.plugin.webview.stub.WebViewStubProxyUI',
+      ],
+      order: -1,
       preKeys: [
         1,
         3,
